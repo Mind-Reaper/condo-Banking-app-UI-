@@ -1,16 +1,15 @@
-# condo
+# condo-Banking-app-UI-
 
-A new Flutter application.
+Flutter App
+Figma UI by vanpavlovme
+https://www.figma.com/@vanpavlovme
 
-## Getting Started
+Please check instructions
+Just UI and animations for a sample banking app
 
-This project is a starting point for a Flutter application.
+Instructions:
 
-A few resources to get you started if this is your first Flutter project:
+Passcode is 0000
+Press settings button to change app theme
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
-
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+You are welcome to fork!
