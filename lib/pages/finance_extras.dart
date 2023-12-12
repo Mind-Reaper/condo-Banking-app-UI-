@@ -11,7 +11,7 @@ class FinanceOptions extends StatefulWidget {
   final Color color2;
   final String currency;
 
-  const FinanceOptions({Key? key, this.controller, this.color2: const Color(0xffFFD60A), this.color1: const  Color(0xff32D74B), this.currency: '€'}) : super(key: key);
+  const FinanceOptions({Key? key, this.controller, this.color2 = const Color(0xffFFD60A), this.color1 = const  Color(0xff32D74B), this.currency = '€'}) : super(key: key);
 
   @override
   State<FinanceOptions> createState() => _FinanceOptionsState();

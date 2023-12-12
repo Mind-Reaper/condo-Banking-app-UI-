@@ -11,7 +11,7 @@ class History extends StatefulWidget {
   History({
     Key? key,
     required this.sheetController,
-    this.currency: '£',
+    this.currency = '£',
   }) : super(key: key);
 
   final SolidController sheetController;
@@ -53,7 +53,8 @@ class _HistoryState extends State<History> {
                           page = 0;
                         });
                         pageController.animateToPage(0,
-                            duration: Duration(milliseconds: 200), curve: Curves.fastOutSlowIn);
+                            duration: Duration(milliseconds: 200),
+                            curve: Curves.fastOutSlowIn);
                       }
                     : null,
                 child: Icon(
@@ -76,7 +77,7 @@ class _HistoryState extends State<History> {
                     : 'History transactions',
                 style: Theme.of(context)
                     .primaryTextTheme
-                    .bodyText1!
+                    .bodyLarge!
                     .copyWith(fontSize: 20, fontWeight: FontWeight.w600),
               )
             ],
@@ -110,7 +111,8 @@ class _HistoryState extends State<History> {
                       page == 0 ? page = 1 : page = 0;
                     });
                     pageController.animateToPage(page,
-                        duration: Duration(milliseconds: 200), curve: Curves.fastOutSlowIn);
+                        duration: Duration(milliseconds: 200),
+                        curve: Curves.fastOutSlowIn);
                   },
                   child: AnimatedContainer(
                     duration: Duration(milliseconds: 200),
@@ -120,10 +122,12 @@ class _HistoryState extends State<History> {
                     decoration: BoxDecoration(
                         color: Theme.of(context).indicatorColor,
                         gradient: page == 1
-                            ? LinearGradient(begin: Alignment.bottomLeft, colors: [
-                                Color(0xffFFD60A),
-                                Color(0xff32D74B),
-                              ])
+                            ? LinearGradient(
+                                begin: Alignment.bottomLeft,
+                                colors: [
+                                    Color(0xffFFD60A),
+                                    Color(0xff32D74B),
+                                  ])
                             : null,
                         borderRadius: BorderRadius.circular(12)),
                     child: page == 0
@@ -153,7 +157,8 @@ class _HistoryState extends State<History> {
                 itemCount: transactions.length,
                 itemBuilder: (context, index) {
                   Map<String, String> transaction = transactions[index];
-                  Map groupByDate = groupBy(transactions, (Map obj) => obj['date']);
+                  Map groupByDate =
+                      groupBy(transactions, (Map obj) => obj['date']);
                   var item = groupByDate.entries
                       .firstWhere((e) => e.key == transaction['date'])
                       .value
@@ -161,7 +166,8 @@ class _HistoryState extends State<History> {
                   return Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      if (transaction['date'] != '07 Apr, 2021' && item == transaction)
+                      if (transaction['date'] != '07 Apr, 2021' &&
+                          item == transaction)
                         Padding(
                           padding: const EdgeInsets.only(left: 75.0),
                           child: Text(transaction['date']!),
@@ -170,21 +176,23 @@ class _HistoryState extends State<History> {
                         contentPadding: EdgeInsets.symmetric(horizontal: 16),
                         leading: CircleAvatar(
                           radius: 24,
-                          backgroundImage:
-                              AssetImage('assets/images/${transaction['name']!.toLowerCase()}.png'),
+                          backgroundImage: AssetImage(
+                              'assets/images/${transaction['name']!.toLowerCase()}.png'),
                         ),
                         title: Text(
                           transaction['name']!,
                           style: Theme.of(context)
                               .primaryTextTheme
-                              .bodyText1!
-                              .copyWith(fontSize: 16, fontWeight: FontWeight.w600),
+                              .bodyLarge!
+                              .copyWith(
+                                  fontSize: 16, fontWeight: FontWeight.w600),
                         ),
                         subtitle: Text(
                           transaction['brand']!,
-                          style: Theme.of(context).textTheme.bodyText1!.copyWith(
-                                fontSize: 14,
-                              ),
+                          style:
+                              Theme.of(context).textTheme.bodyLarge!.copyWith(
+                                    fontSize: 14,
+                                  ),
                         ),
                         trailing: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
@@ -192,14 +200,22 @@ class _HistoryState extends State<History> {
                           children: [
                             Text(
                               "${transaction['type'] == 'debit' ? '- ' : ''}${transaction['amount']} ${widget.currency}",
-                              style: Theme.of(context).primaryTextTheme.bodyText1!.copyWith(
-                                  fontSize: 16,
-                                  color: transaction['type'] == 'credit' ? Color(0xff32D74B) : null,
-                                  fontWeight: FontWeight.w600),
+                              style: Theme.of(context)
+                                  .primaryTextTheme
+                                  .bodyLarge!
+                                  .copyWith(
+                                      fontSize: 16,
+                                      color: transaction['type'] == 'credit'
+                                          ? Color(0xff32D74B)
+                                          : null,
+                                      fontWeight: FontWeight.w600),
                             ),
                             SizedBox(height: 4),
                             Text(transaction['time']!,
-                                style: Theme.of(context).textTheme.bodyText1!.copyWith(
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodyLarge!
+                                    .copyWith(
                                       fontSize: 14,
                                     ))
                           ],
@@ -217,36 +233,54 @@ class _HistoryState extends State<History> {
                 allowViewNavigation: false,
                 headerStyle: DateRangePickerHeaderStyle(
                     backgroundColor: Theme.of(context).cardColor,
-                    textStyle:
-                        Theme.of(context).primaryTextTheme.bodyText1!.copyWith(fontSize: 16)),
+                    textStyle: Theme.of(context)
+                        .primaryTextTheme
+                        .bodyLarge!
+                        .copyWith(fontSize: 16)),
                 selectionShape: DateRangePickerSelectionShape.circle,
                 monthCellStyle: DateRangePickerMonthCellStyle(
-                  textStyle: Theme.of(context).primaryTextTheme.bodyText1!.copyWith(fontSize: 16),
-                  todayTextStyle:
-                      Theme.of(context).primaryTextTheme.bodyText1!.copyWith(fontSize: 16),
+                  textStyle: Theme.of(context)
+                      .primaryTextTheme
+                      .bodyLarge!
+                      .copyWith(fontSize: 16),
+                  todayTextStyle: Theme.of(context)
+                      .primaryTextTheme
+                      .bodyLarge!
+                      .copyWith(fontSize: 16),
                 ),
                 selectionRadius: 30,
-                todayHighlightColor: Theme.of(context).primaryTextTheme.bodyText1!.color,
-                rangeSelectionColor:
-                    Theme.of(context).primaryTextTheme.bodyText1!.color!.withOpacity(0.3),
-                startRangeSelectionColor: Theme.of(context).primaryTextTheme.bodyText1!.color,
-                endRangeSelectionColor: Theme.of(context).primaryTextTheme.bodyText1!.color,
-                selectionTextStyle: TextStyle(fontSize: 16, color: Theme.of(context).cardColor),
-                rangeTextStyle: TextStyle(fontSize: 16, color: Theme.of(context).cardColor),
+                todayHighlightColor:
+                    Theme.of(context).primaryTextTheme.bodyLarge!.color,
+                rangeSelectionColor: Theme.of(context)
+                    .primaryTextTheme
+                    .bodyLarge!
+                    .color!
+                    .withOpacity(0.3),
+                startRangeSelectionColor:
+                    Theme.of(context).primaryTextTheme.bodyLarge!.color,
+                endRangeSelectionColor:
+                    Theme.of(context).primaryTextTheme.bodyLarge!.color,
+                selectionTextStyle:
+                    TextStyle(fontSize: 16, color: Theme.of(context).cardColor),
+                rangeTextStyle:
+                    TextStyle(fontSize: 16, color: Theme.of(context).cardColor),
                 monthViewSettings: DateRangePickerMonthViewSettings(
                     firstDayOfWeek: 1,
                     viewHeaderHeight: 40,
                     viewHeaderStyle: DateRangePickerViewHeaderStyle(
                         backgroundColor: Theme.of(context).indicatorColor,
-                        textStyle: TextStyle(color: Color(0xff8E8E93), fontSize: 16))),
+                        textStyle:
+                            TextStyle(color: Color(0xff8E8E93), fontSize: 16))),
                 selectionMode: DateRangePickerSelectionMode.range,
                 enableMultiView: true,
-                navigationDirection: DateRangePickerNavigationDirection.vertical,
+                navigationDirection:
+                    DateRangePickerNavigationDirection.vertical,
                 onSelectionChanged: (value) {
                   setState(() {
                     startDate = value.value.startDate;
-                    endDate =
-                        value.value.endDate == value.value.startDate ? null : value.value.endDate;
+                    endDate = value.value.endDate == value.value.startDate
+                        ? null
+                        : value.value.endDate;
                   });
                 },
               ),

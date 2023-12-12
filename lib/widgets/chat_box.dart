@@ -12,12 +12,12 @@ class BotChat extends StatelessWidget {
 
   const BotChat(
       {Key? key,
-      this.text: 'Hello',
+      this.text = 'Hello',
       this.timestamp,
       this.animation,
-      this.first: false,
-      this.middle: false,
-      this.last: false})
+      this.first = false,
+      this.middle = false,
+      this.last = false})
       : super(key: key);
 
   @override
@@ -95,12 +95,12 @@ class UserChat extends StatelessWidget {
 
   const UserChat(
       {Key? key,
-      this.text: 'Hello',
+      this.text = 'Hello',
       this.timestamp,
       this.animation,
-      this.first: false,
-      this.middle: false,
-      this.last: false})
+      this.first = false,
+      this.middle = false,
+      this.last = false})
       : super(key: key);
 
   @override
@@ -170,7 +170,7 @@ class NoteChat extends StatelessWidget {
   final String? text;
   final String botName;
 
-  const NoteChat({Key? key, this.text, this.botName: 'Colin'}) : super(key: key);
+  const NoteChat({Key? key, this.text, this.botName = 'Colin'}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

@@ -12,7 +12,7 @@ class ExpenseIndicator extends StatelessWidget {
   final Animation? animation;
   final Color color;
 
-  const ExpenseIndicator({Key? key, this.title: 'Food', this.icon: 'food', this.exp: 'exp1', this.selectedMonth: 3, this.animation, this.color: const Color(0xff32D74B)}) : super(key: key);
+  const ExpenseIndicator({Key? key, this.title = 'Food', this.icon = 'food', this.exp = 'exp1', this.selectedMonth = 3, this.animation, this.color = const Color(0xff32D74B)}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

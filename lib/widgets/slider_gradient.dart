@@ -29,6 +29,7 @@ class GradientRectSliderTrackShape extends SliderTrackShape
         required Animation<double> enableAnimation,
         required TextDirection textDirection,
         required Offset thumbCenter,
+        Offset? secondaryOffset,
         bool isDiscrete = false,
         bool isEnabled = false,
         double additionalActiveTrackHeight = 0,
@@ -135,6 +136,7 @@ class GradientRectSliderTrackShape extends SliderTrackShape
 
 class CustomTrackShape extends RoundedRectSliderTrackShape {
 
+
   @override
   void paint(PaintingContext context, Offset offset,
       {required RenderBox parentBox,
@@ -142,6 +144,7 @@ class CustomTrackShape extends RoundedRectSliderTrackShape {
         required Animation<double> enableAnimation,
         required TextDirection textDirection,
         required Offset thumbCenter,
+         Offset? secondaryOffset,
         bool isDiscrete = false,
         bool isEnabled = false,
         double additionalActiveTrackHeight = 2}) {
@@ -152,6 +155,7 @@ class CustomTrackShape extends RoundedRectSliderTrackShape {
         enableAnimation: enableAnimation,
         textDirection: textDirection,
         thumbCenter: thumbCenter,
+        secondaryOffset: secondaryOffset,
         isDiscrete: isDiscrete,
         isEnabled: isEnabled,
         additionalActiveTrackHeight: 0);

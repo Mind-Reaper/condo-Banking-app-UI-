@@ -14,16 +14,16 @@ class DebitCard extends StatefulWidget {
 
   const DebitCard(
       {Key? key,
-      this.name: 'Main card',
-      this.number: '5167 1280 3300 1299',
-      this.date: '05 / 25',
-      this.cash: '£ 7,907.10',
-      this.issuer: 'mastercard',
-      this.color1: const Color(0xff32D74B),
-      this.color2: const Color(0xffFFD60A),
-      this.bright: false,
+      this.name = 'Main card',
+      this.number = '5167 1280 3300 1299',
+      this.date = '05 / 25',
+      this.cash = '£ 7,907.10',
+      this.issuer = 'mastercard',
+      this.color1 = const Color(0xff32D74B),
+      this.color2 = const Color(0xffFFD60A),
+      this.bright = false,
       this.onTap,
-      this.shrink: false})
+      this.shrink = false})
       : super(key: key);
 
   @override

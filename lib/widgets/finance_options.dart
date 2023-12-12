@@ -4,7 +4,7 @@ class Option extends StatelessWidget {
   final String title;
   final String icon;
 
-  const Option({Key? key, this.title: 'transfer', this.icon: 'transfer'}) : super(key: key);
+  const Option({Key? key, this.title = 'transfer', this.icon = 'transfer'}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

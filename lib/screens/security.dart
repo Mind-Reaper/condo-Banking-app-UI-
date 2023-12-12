@@ -1,14 +1,13 @@
 import 'package:condo/providers/theme_provider.dart';
 import 'package:condo/resources.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_shakemywidget/flutter_shakemywidget.dart';
 import 'package:flutter_vibrate/flutter_vibrate.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:local_auth/local_auth.dart';
-import 'package:shake_widget/controller.dart';
-import 'dart:io' show Platform;
 
-import 'package:shake_widget/shake_widget.dart';
+import 'dart:io' show Platform;
 
 class Security extends StatefulWidget {
   const Security({Key? key}) : super(key: key);
@@ -22,7 +21,7 @@ class _SecurityState extends State<Security> {
   var localAuth = LocalAuthentication();
   bool canCheckBiometrics = false;
   String security = 'touchid';
-  ShakeController shakeController = ShakeController();
+  final shakeKey = GlobalKey<ShakeWidgetState>();
 
   @override
   void initState() {
@@ -34,7 +33,8 @@ class _SecurityState extends State<Security> {
   checkBiometrics() async {
     canCheckBiometrics = await localAuth.canCheckBiometrics;
     if (canCheckBiometrics) {
-      List<BiometricType> availableBiometrics = await localAuth.getAvailableBiometrics();
+      List<BiometricType> availableBiometrics =
+          await localAuth.getAvailableBiometrics();
 
       if (Platform.isIOS) {
         if (availableBiometrics.contains(BiometricType.face)) {
@@ -53,8 +53,8 @@ class _SecurityState extends State<Security> {
   }
 
   Future<bool> authenticate() async {
-    bool didAuthenticate =
-        await localAuth.authenticate(localizedReason: 'Please authenticate to proceed', biometricOnly: true);
+    bool didAuthenticate = await localAuth.authenticate(
+        localizedReason: 'Please authenticate to proceed', options: AuthenticationOptions(biometricOnly: true));
     return didAuthenticate;
   }
 
@@ -73,7 +73,8 @@ class _SecurityState extends State<Security> {
             elevation: 0,
             title: Text(
               'Security screen',
-              style: GoogleFonts.poppins(fontSize: 20, fontWeight: FontWeight.w600),
+              style: GoogleFonts.poppins(
+                  fontSize: 20, fontWeight: FontWeight.w600),
             ),
           ),
           body: Center(
@@ -83,13 +84,17 @@ class _SecurityState extends State<Security> {
                 SizedBox(height: 48),
                 Text(
                   'Enter your passcode',
-                  style: Theme.of(context).primaryTextTheme.bodyText1!.copyWith(fontSize: 16),
+                  style: Theme.of(context)
+                      .primaryTextTheme
+                      .bodyText1!
+                      .copyWith(fontSize: 16),
                 ),
                 SizedBox(height: 10),
-                ShakeWidget(
-                  shakeController: shakeController,
-                  duration: Duration(milliseconds: 300),
-
+                ShakeMe(
+                  key: shakeKey,
+                  shakeCount: 3,
+                  shakeOffset: 10,
+                  shakeDuration: Duration(milliseconds: 500),
                   child: Container(
                     height: 48,
                     child: ListView.builder(
@@ -103,7 +108,7 @@ class _SecurityState extends State<Security> {
                             child: AnimatedContainer(
                               duration: Duration(milliseconds: 200),
                               height: passcode.length >= index + 1 ? 14 : 12,
-                              width:  passcode.length >= index + 1 ? 14 : 12,
+                              width: passcode.length >= index + 1 ? 14 : 12,
                               decoration: BoxDecoration(
                                   shape: BoxShape.circle,
                                   color: passcode.length >= index + 1
@@ -119,36 +124,40 @@ class _SecurityState extends State<Security> {
                   width: 312,
                   child: GridView.builder(
                       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: 3, crossAxisSpacing: 30, mainAxisSpacing: 16),
+                          crossAxisCount: 3,
+                          crossAxisSpacing: 30,
+                          mainAxisSpacing: 16),
                       itemCount: passcodes.length,
                       physics: NeverScrollableScrollPhysics(),
                       shrinkWrap: true,
                       itemBuilder: (context, index) {
                         String item = passcodes[index];
                         return Material(
-                          color: item != 'unlock' && item !=  'delete'  ? Theme.of(context).cardColor :  Theme.of(context).primaryColor,
+                          color: item != 'unlock' && item != 'delete'
+                              ? Theme.of(context).cardColor
+                              : Theme.of(context).primaryColor,
                           shape: CircleBorder(),
                           child: InkWell(
                             customBorder: CircleBorder(),
                             highlightColor: Colors.transparent,
                             splashColor: Colors.green.withOpacity(0.3),
-
-
-
                             onTap: () async {
                               if (item == 'unlock') {
-                                authenticate().then((value) async{
-                                  if(value) {
+                                authenticate().then((value) async {
+                                  if (value) {
                                     setState(() {
                                       passcode = '0000';
                                     });
-                                    await Future.delayed(Duration(milliseconds: 500));
-                                    Navigator.pushNamedAndRemoveUntil(context, '/home', (route) => route.isCurrent);
+                                    await Future.delayed(
+                                        Duration(milliseconds: 500));
+                                    Navigator.pushNamedAndRemoveUntil(context,
+                                        '/home', (route) => route.isCurrent);
                                   }
                                 });
                               } else if (item == 'delete') {
-                                if(passcode.length > 0) {
-                                  passcode = passcode.substring(0, passcode.length - 1);
+                                if (passcode.length > 0) {
+                                  passcode = passcode.substring(
+                                      0, passcode.length - 1);
                                   setState(() {});
                                 }
                               } else {
@@ -156,11 +165,12 @@ class _SecurityState extends State<Security> {
                                   if (passcode.length < 4) {
                                     passcode = '$passcode$item';
                                   }
-                                  if(passcode.length == 4 ) {
-                                    if(passcode == '0000') {
-                                      Navigator.pushNamedAndRemoveUntil(context, '/home', (route) => route.isCurrent);
+                                  if (passcode.length == 4) {
+                                    if (passcode == '0000') {
+                                      Navigator.pushNamedAndRemoveUntil(context,
+                                          '/home', (route) => route.isCurrent);
                                     } else {
-                                      shakeController.shake();
+                                      shakeKey.currentState?.shake();
                                       Vibrate.feedback(FeedbackType.error);
                                       passcode = '';
                                     }
@@ -175,19 +185,25 @@ class _SecurityState extends State<Security> {
                               child: FittedBox(
                                   child: item == 'unlock'
                                       ? ImageIcon(
-                                          AssetImage('assets/images/$security.png'),
-                                          color: Theme.of(context).accentIconTheme.color,
+                                          AssetImage(
+                                              'assets/images/$security.png'),
+                                          color: Theme.of(context)
+                                              .secondaryHeaderColor,
                                         )
                                       : item == 'delete'
                                           ? Padding(
-                                              padding: const EdgeInsets.all(8.0),
+                                              padding:
+                                                  const EdgeInsets.all(8.0),
                                               child: ImageIcon(
-                                                AssetImage('assets/images/delete.png'),
+                                                AssetImage(
+                                                    'assets/images/delete.png'),
                                               ),
                                             )
                                           : Text(
                                               item,
-                                              style: Theme.of(context).primaryTextTheme.button,
+                                              style: Theme.of(context)
+                                                  .primaryTextTheme
+                                                  .button,
                                             )),
                             ),
                           ),
@@ -196,11 +212,17 @@ class _SecurityState extends State<Security> {
                 ),
                 Spacer(),
                 GestureDetector(
-                  onTap: () {
-                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Passcode is 0000')));
-                  },
-                    child: Text('Forgot password?',style: TextStyle(fontSize: 16),)),
-                SizedBox(height: 50,)
+                    onTap: () {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(content: Text('Passcode is 0000')));
+                    },
+                    child: Text(
+                      'Forgot password?',
+                      style: TextStyle(fontSize: 16),
+                    )),
+                SizedBox(
+                  height: 50,
+                )
               ],
             ),
           ),
